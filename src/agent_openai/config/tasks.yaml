@@ -1,0 +1,21 @@
+validation_task:
+  description: >
+    You will receive a ticket raised by the user seeking to resolve the issue that they are facing.
+    The ticket is provided below :
+    {topic}
+    
+    Your task is to:
+    1. Parse the user's message to extract the user ID, movie/content name, and region
+    2. YOU MUST use the MongoDB tool MongoDBTool() to retrieve the user record from the database using the extracted user ID. DO NOT SKIP THIS STEP. DO NOT HALLUCINATE DATABASE RECORDS.
+    3. Check the following conditions in the retrieved record: 
+        - Check if the user's subscription is active or not
+        - Check if the user is trying to access a movie/content where they have subscribed in that region.
+    4. If the user's subscription is active and they are trying to access a movie/content where they have subscribed in that region, provide a solution to the user.
+    
+    Process the user query: {topic}
+  expected_output: >
+    After performing these three checks in the same order, provide a summary to the user explaining why they face the issue and provide a solution.
+    Include the extracted information (user ID, movie name, region) in your response and the EXACT database record retrieved from MongoDB.
+    You MUST use the MongoDB tool and include its results in your response.
+  markdown: true
+  agent: validation_agent
