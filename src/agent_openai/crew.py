@@ -20,13 +20,13 @@ class AgentOpenai():
             config=self.agents_config['freshdesk_support_agent'], 
             tools=[MongoDBTool()],
             llm=LLM(
-                model=os.getenv("MODEL", "gpt-4.1-mini-2025-04-14"),
+                model=os.getenv("MODEL", "o4-mini-2025-04-16"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=0.1,  # Lower temperature for more consistent behavior
                 max_tokens=4000
             ),
             function_calling_llm=LLM(
-                model="ggpt-4.1-mini-2025-04-14",
+                model="o4-mini-2025-04-16",
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=0.1
             ),
@@ -56,7 +56,7 @@ You can use the tool: MongoDBTool() for fetching customer details from MongoDB t
             config=self.agents_config.get('validation_agent', self.agents_config['freshdesk_support_agent']),
             tools=[MongoDBTool()],
             llm=LLM(
-                model=os.getenv("MODEL", "gpt-4o-mini"),
+                model=os.getenv("MODEL", "o4-mini-2025-04-16"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=0.1,
                 max_tokens=4000
