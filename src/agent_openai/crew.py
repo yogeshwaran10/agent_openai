@@ -26,7 +26,7 @@ class AgentOpenai():
                 max_tokens=4000
             ),
             function_calling_llm=LLM(
-                model="o4-mini-2025-04-16",
+                model=os.getenv("MODEL", "o4-mini-2025-04-16"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=0.1
             ),
@@ -62,7 +62,7 @@ You can use the tool: MongoDBTool() for fetching customer details from MongoDB t
                 max_tokens=4000
             ),
             function_calling_llm=LLM(
-                model="gpt-4o",
+                model=os.getenv("MODEL", "o4-mini-2025-04-16"),
                 api_key=os.getenv("OPENAI_API_KEY"),
                 temperature=0.1
             ),
