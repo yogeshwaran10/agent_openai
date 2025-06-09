@@ -1,21 +1,45 @@
 validation_task:
   description: >
     You will receive a ticket raised by the user seeking to resolve the issue that they are facing.
-    The ticket is provided below :
+    The ticket is provided below:
     {topic}
     
-    Your task is to:
-    1. Parse the user's message to extract the user ID, movie/content name, and region
-    2. YOU MUST use the MongoDB tool MongoDBTool() to retrieve the user record from the database using the extracted user ID. DO NOT SKIP THIS STEP. DO NOT HALLUCINATE DATABASE RECORDS.
-    3. Check the following conditions in the retrieved record: 
-        - Check if the user's subscription is active or not
-        - Check if the user is trying to access a movie/content where they have subscribed in that region.
-    4. If the user's subscription is active and they are trying to access a movie/content where they have subscribed in that region, provide a solution to the user.
+    MANDATORY WORKFLOW - MUST BE FOLLOWED EXACTLY:
+    
+    1. FIRST: Parse the user's message to extract the user ID and user region
+    
+    2. SECOND: YOU MUST IMMEDIATELY call MongoDBTool() with the extracted user ID. 
+       THIS IS NOT OPTIONAL. DO NOT PROCEED WITHOUT CALLING THE TOOL.
+       DO NOT PROVIDE ANY ANALYSIS OR SOLUTION UNTIL YOU HAVE CALLED THE TOOL.
+    
+    3. THIRD: After receiving the database response, analyze the retrieved record to check:
+        - Is the user's subscription active or expired?
+        - What regions are available for this user's subscription?
+        - Does the user's current region match their available regions?
+    
+    4. FOURTH: Based ONLY on the actual database record (not assumptions), provide a solution.
+    
+    CRITICAL REQUIREMENTS:
+    - You MUST call MongoDBTool() before any analysis
+    - If no record is retrieved, inform the user that the user ID is invalid
+    - Use ONLY the exact data returned by the database tool
+    - Include the complete database record in your response as proof
     
     Process the user query: {topic}
+    
   expected_output: >
-    After performing these three checks in the same order, provide a summary to the user explaining why they face the issue and provide a solution.
-    Include the extracted information (user ID, movie name, region) in your response and the EXACT database record retrieved from MongoDB.
-    You MUST use the MongoDB tool and include its results in your response.
+    A detailed user report that MUST include:
+    
+    1. **Extracted Information**: User ID, region, and requested content
+    2. **Database Record**: The COMPLETE and EXACT record retrieved from MongoDB using MongoDBTool()
+    3. **Analysis**: Based on the actual database record, explain:
+       - Subscription status (active/expired)
+       - Regional availability vs user's current location
+       - Content access permissions
+    4. **Solution**: Clear steps to resolve the issue based on the database findings
+    
+    MANDATORY: The response MUST show that MongoDBTool() was called and include its exact output.
+    Do NOT provide solutions based on assumptions or fabricated data.
+    
   markdown: true
   agent: validation_agent
